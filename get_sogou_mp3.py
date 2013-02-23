@@ -17,8 +17,11 @@ def getlink(music_name):
         data2 = urllib2.urlopen(next_link,timeout=10).read()
         re_com2 = re.compile('<div class="dl"><a href=\"(.*?)\"')
         download_link = re_com2.findall(data2)
-        if download_link[0][-3:] == 'mp3':
-            return download_link[0]
+        try:
+            if download_link[0][-3:] == 'mp3':
+                return download_link[0]
+        except:
+            pass
     return None
 
 if __name__=='__main__':
