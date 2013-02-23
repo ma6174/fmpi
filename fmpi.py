@@ -13,10 +13,15 @@ class FMPI(DB):
     '''从播放队列获取歌曲并播放'''
     def play(self,name_or_url,freq=97.5,rate=44100):
         '''调用外部播放命令'''
-        cmd = "mpg123 -m -C -q -s %s | sudo pifm - %s %s"%(name_or_url,freq,rate)
-        p1 = subprocess.Popen(cmd,shell=True)
+#        cmd = "mpg123 -m -C -q -s %s | sudo pifm - %s %s"%(name_or_url,freq,rate)
+        cmd1 = "mpg123 -m -C -q -s %s"%name_or_url
+        cmd2 = "sudo pifm - %s %s"%(freq,rate)
+        p1 = subprocess.Popen(cmd1,shell=True,stdout=subprocess.PIPE)
+        p2 = subprocess.Popen(cmd2,shell=True,stdin=p1.stdout,stdout=subprocess.PIPE)
         p1.wait()
         print p1.pid
+        print p1.stdout.read()
+        print p2.stdout.read()
 #        os.system(cmd)
         return 0
 
