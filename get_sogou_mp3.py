@@ -4,7 +4,7 @@ import urllib
 import urllib2
 import re
 def getlink(music_name):
-    quote_name = urllib.quote(music_name)
+    quote_name = urllib.quote(music_name.decode('utf-8').encode('gbk'))
     query_url = 'http://mp3.sogou.com/music.so?query=%s&class=1&pf=&w=02009900&st=&ac=1&sourcetype=sugg&_asf=mp3.sogou.com&_ast=1361525645'%quote_name
     data = urllib2.urlopen(query_url,timeout=10).read()
     re_com = re.compile('onclick="window.open\(\'(.*?)\'')

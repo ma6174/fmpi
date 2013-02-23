@@ -5,6 +5,7 @@ import os
 import web
 import time
 import sqlite3
+import random
 from threading import Thread
 from get_sogou_mp3 import getlink
 import locale 
@@ -69,6 +70,13 @@ class FMPI(DB):
         print cmd
         os.system(cmd)
         return 0
+
+    def get_random_music(self):
+        music_set = file("./music_name.txt").readlines()
+        total = len(music_set)
+        rand = random.randint(0,total-1)
+        return music_set[rand][:-1]
+
     def fmpi(self):
         '''循环检测'''
         while True:
@@ -78,9 +86,12 @@ class FMPI(DB):
             except:
                 one = None
             if one is not None:
-                url = getlink(one[1])
+                url = getlink(one[1].encode('utf-8'))
                 self.play(url)
                 DB.updateone(self,one[0])
+            else:
+                rand_music = self.get_random_music()
+                DB.put(self,rand_music)
             time.sleep(1)#降低CPU占用率
 
 class INDEX(DB):
@@ -127,7 +138,10 @@ class INDEX(DB):
             return '''<head><meta charset="UTF-8"></head>
             <h1>music already exists'''
 
+
 if __name__=='__main__':
+    print get_random_music()
+    raise
     db = DB()
     db.create_table()
     pi = FMPI()
