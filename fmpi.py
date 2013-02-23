@@ -75,7 +75,7 @@ class FMPI(DB):
                 url = getlink(one[1])
                 self.play(url)
                 DB.updateone(self,one[0])
-#            time.sleep(2)
+            time.sleep(1)
 
 class INDEX(DB):
     def index(self):
@@ -89,7 +89,7 @@ class INDEX(DB):
          '''
         query = DB.getall(self)
         try:
-            html += u"<h2>正在播放</h1>%s<h2>播放列表</h1>"%query[0][1]
+            html += u"<h2>Playing</h1>%s<h2>list</h1>"%query[0][1]
             num = 1
             for i in query[1:]:
                 html = html + '<li>%d----%s</li>'%(num,i[1])
@@ -109,15 +109,15 @@ class INDEX(DB):
         try:
             music_name = input['m']
             print music_name
-            if self.check_name_exist(music_name) is False:
-                DB.put(self,music_name)
-                raise web.seeother('/')
-            else:
-                return '''<head><meta charset="UTF-8"></head>
-                <h1>歌曲在播放列表中已经存在'''
-                raise web.seeother('/')
         except:
+            print "no input"
             return self.index()
+        if self.check_name_exist(music_name) is False:
+            DB.put(self,music_name)
+            raise web.seeother('/')
+        else:
+            return '''<head><meta charset="UTF-8"></head>
+            <h1>music already exists'''
 
 if __name__=='__main__':
     db = DB()
