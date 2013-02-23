@@ -140,8 +140,6 @@ class INDEX(DB):
 
 
 if __name__=='__main__':
-    print get_random_music()
-    raise
     db = DB()
     db.create_table()
     pi = FMPI()
