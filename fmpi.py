@@ -7,6 +7,8 @@ import time
 import sqlite3
 from threading import Thread
 from get_sogou_mp3 import getlink
+import locale 
+locale.setlocale(locale.LC_ALL, '') 
 
 urls = (
     '/',"INDEX",
@@ -60,7 +62,7 @@ class DB:
 
 class FMPI(DB):
     def play(self,name_or_url,freq=97.5,rate=44100):
-        cmd = "mpg123 -m -C -q -s name_or_url |sudo pifm - %s %s"%(name_or_url,freq,rate)
+        cmd = "mpg123 -m -C -q -s %s |sudo pifm - %s %s"%(name_or_url,freq,rate)
         print cmd
         os.system(cmd)
         return 0
