@@ -6,6 +6,7 @@ from fmpi import FMPI
 from threading import Thread
 urls = (
     '/',"INDEX",
+    '/c/',"CONTROL",
 )
 app = web.application(urls,globals())
 web.config.debug = False
@@ -55,6 +56,10 @@ class INDEX(DB):
         else:
             return '''<head><meta charset="UTF-8"></head>
             <h1>music already exists'''
+
+class CONTROL:
+    def GET(self,args=None):
+        pass
 
 if __name__=='__main__':
     db = DB()
