@@ -1,3 +1,2 @@
 #!/bin/bash
-sudo python fmpi.py
-
+sudo python web_server.py
