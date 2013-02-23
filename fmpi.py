@@ -17,6 +17,7 @@ app = web.application(urls,globals())
 #web.config.debug = False
 
 class DB:
+    '''数据库相关操作'''
     db_name = "query.db"
     def create_table(self):
         conn = sqlite3.connect(self.db_name)
@@ -61,12 +62,15 @@ class DB:
 
 
 class FMPI(DB):
+    '''从播放队列获取歌曲并播放'''
     def play(self,name_or_url,freq=97.5,rate=44100):
+        '''调用外部播放命令'''
         cmd = "mpg123 -m -C -q -s %s |sudo pifm - %s %s"%(name_or_url,freq,rate)
         print cmd
         os.system(cmd)
         return 0
     def fmpi(self):
+        '''循环检测'''
         while True:
             query = DB.getall(self)
             try:
@@ -77,9 +81,10 @@ class FMPI(DB):
                 url = getlink(one[1])
                 self.play(url)
                 DB.updateone(self,one[0])
-            time.sleep(1)
+            time.sleep(1)#降低CPU占用率
 
 class INDEX(DB):
+    '''web页面相关'''
     def index(self):
         html = '''<head><meta charset="UTF-8"></head>
         <html>
@@ -100,6 +105,7 @@ class INDEX(DB):
         except:
             return html
     def check_name_exist(self,name):
+        '''检查歌曲名字是否存在'''
         all = DB.getall(self)
         for i in all:
             print i[1]
@@ -125,7 +131,7 @@ if __name__=='__main__':
     db = DB()
     db.create_table()
     pi = FMPI()
-    player = Thread(target=pi.fmpi)
-    player.setDaemon(True)
+    player = Thread(target=pi.fmpi) #播放线程在后台
+    player.setDaemon(True)     #随主线程一块退出
     player.start()
-    app.run()
+    app.run() #启动web服务器
