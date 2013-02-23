@@ -97,7 +97,7 @@ class FMPI(DB):
 class INDEX(DB):
     '''web页面相关'''
     def index(self):
-        html = '''<head><meta charset="UTF-8"></head>
+        html = '''<head><meta charset="UTF-8"><link rel="shortcut icon" href="/static/favicon.ico" ></head>
         <html>
         <form action="/" method="GET">
         I want to listen:
