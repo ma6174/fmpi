@@ -19,9 +19,6 @@ class FMPI(DB):
         p1 = subprocess.Popen(cmd1,shell=True,stdout=subprocess.PIPE)
         p2 = subprocess.Popen(cmd2,shell=True,stdin=p1.stdout,stdout=subprocess.PIPE)
         p1.wait()
-        print p1.pid
-        print p1.stdout.read()
-        print p2.stdout.read()
 #        os.system(cmd)
         return 0
 
