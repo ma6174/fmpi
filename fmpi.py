@@ -72,9 +72,10 @@ class FMPI(DB):
             except:
                 one = None
             if one is not None:
-#                self.play(link)
+                url = getlink(one[1])
+                self.play(url)
                 DB.updateone(self,one[0])
-            time.sleep(2)
+#            time.sleep(2)
 
 class INDEX(DB):
     def index(self):
