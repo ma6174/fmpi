@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #coding=utf-8
-
+import os
 import time
 import random
 import config
@@ -41,12 +41,12 @@ class FMPI(DB):
                 one = query[0]
             except:
                 one = None
+            os.system("clear")
             if one is not None:
-                subprocess.Popen("clear",shell=True)
                 print '>>>>%s'%one[1]
                 if one[1].startswith('http://'): #直接播放url对应的音乐
                     if one[1].endswith('.mp3'):
-                        self.play(one[1])
+                        self.play(one[1],config.freq,config.rate)
                     else:
                         links = get_all_mp3(one[1])
                         for i in links:
