@@ -24,5 +24,17 @@ def getlink(music_name):
             pass
     return None
 
+def get_all_mp3(url):
+    '''get all mp3 from a url'''
+    data = urllib2.urlopen(url).read()
+    re_com = re.compile('http://.*?\.mp3')
+    all = re_com.findall(data)
+    re_com = re.compile('<a href=\"(.*?\.mp3)\"')
+    ll = re_com.findall(data)
+    for i in ll:
+        if urllib.basejoin(url,i) not in all:
+            all.append(urllib.basejoin(url,i))
+    return list(set(all)) #删除重复歌曲
+
 if __name__=='__main__':
     print getlink('滴答')

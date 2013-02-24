@@ -9,6 +9,8 @@ urls = (
 )
 app = web.application(urls,globals())
 web.config.debug = False
+
+
 class INDEX(DB,FMPI):
     '''web页面相关'''
     def index(self):
