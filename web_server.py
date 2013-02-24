@@ -6,11 +6,10 @@ from fmpi import FMPI
 from threading import Thread
 urls = (
     '/',"INDEX",
-    '/c/',"CONTROL",
 )
 app = web.application(urls,globals())
 web.config.debug = False
-class INDEX(DB):
+class INDEX(DB,FMPI):
     '''web页面相关'''
     def index(self):
         html = '''<head>
@@ -42,24 +41,27 @@ class INDEX(DB):
             if i[1] == name:
                 return True
         return False
-    def GET(self,args=None):
-        input = web.input()
-        try:
-            music_name = input['m']
-            print music_name
-        except:
-            print "no input"
-            return self.index()
+    def add_music(self,music_name):
         if self.check_name_exist(music_name) is False:
             DB.put(self,music_name)
-            raise web.seeother('/')
+            return None
         else:
             return '''<head><meta charset="UTF-8"></head>
             <h1>music already exists'''
 
-class CONTROL:
     def GET(self,args=None):
-        pass
+        input = web.input()
+        if input.has_key('c'):
+            key = input['c']
+            FMPI.control(self,key)
+            web.seeother('/')
+        if input.has_key('m'):
+            music_name = input['m']
+            ret = self.add_music(music_name)
+            if ret is None:
+                web.seeother('/')
+            else:
+                return ret
 
 if __name__=='__main__':
     db = DB()
