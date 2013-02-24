@@ -4,6 +4,7 @@ import os
 import time
 import random
 import config
+import logging
 import subprocess
 from db import DB
 from get_sogou_mp3 import getlink,get_all_mp3
@@ -15,7 +16,7 @@ class FMPI(DB):
 #        cmd = "mpg123 -m -C -q -s %s | sudo pifm - %s %s"%(name_or_url,freq,rate)
         cmd1 = "mpg123 -m -C -q -s %s"%name_or_url
         cmd2 = "sudo pifm - %s %s"%(freq,rate)
-        print '''press q to play next songs,\npress Ctrl+c to terminate'''
+        logging.info('''press q to play next songs,\npress Ctrl+c to terminate''')
         self.p1 = subprocess.Popen(cmd1,shell=True,stdout=subprocess.PIPE)
         self.p2 = subprocess.Popen(cmd2,shell=True,stdin=self.p1.stdout,stdout=subprocess.PIPE)
         self.p1.wait()
@@ -43,7 +44,7 @@ class FMPI(DB):
                 one = None
             os.system("clear")
             if one is not None:
-                print '>>>>%s'%one[1]
+                logging.info('>>>>%s'%one[1])
                 if one[1].startswith('http://'): #直接播放url对应的音乐
                     if one[1].endswith('.mp3'):
                         self.play(one[1],config.freq,config.rate)

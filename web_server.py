@@ -1,16 +1,15 @@
 #!/usr/bin/env python
 #coding=utf-8
 import web
+import logging
 from db import DB
 from fmpi import FMPI
-from mylog import Log
 from threading import Thread
 urls = (
     '/',"INDEX",
 )
 app = web.application(urls,globals())
 web.config.debug = False
-
 
 class INDEX(DB,FMPI):
     '''web页面相关'''
@@ -40,7 +39,7 @@ class INDEX(DB,FMPI):
         '''检查歌曲名字是否存在'''
         all = DB.getall(self)
         for i in all:
-            print i[1]
+            logging.info(i[1])
             if i[1] == name:
                 return True
         return False
@@ -68,10 +67,11 @@ class INDEX(DB,FMPI):
         return self.index()
 
 if __name__=='__main__':
+    logging.basicConfig(level=logging.INFO,format="%(message)s")
     db = DB()
     db.create_table()
     pi = FMPI()
     player = Thread(target=pi.fmpi) #播放器线程
     player.setDaemon(True)     #随主线程一块退出
     player.start()
-    app.run(Log) #web服务器--主线程
+    app.run() #web服务器--主线程
