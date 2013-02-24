@@ -3,6 +3,7 @@
 import web
 from db import DB
 from fmpi import FMPI
+from mylog import Log
 from threading import Thread
 urls = (
     '/',"INDEX",
@@ -73,4 +74,4 @@ if __name__=='__main__':
     player = Thread(target=pi.fmpi) #播放器线程
     player.setDaemon(True)     #随主线程一块退出
     player.start()
-    app.run() #web服务器--主线程
+    app.run(Log) #web服务器--主线程
