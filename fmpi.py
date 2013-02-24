@@ -15,12 +15,12 @@ class FMPI(DB):
 #        cmd = "mpg123 -m -C -q -s %s | sudo pifm - %s %s"%(name_or_url,freq,rate)
         cmd1 = "mpg123 -m -C -q -s %s"%name_or_url
         cmd2 = "sudo pifm - %s %s"%(freq,rate)
-        self.p1 = subprocess.Popen(cmd1,shell=True,stdout=subprocess.PIPE)
-        self.p2 = subprocess.Popen(cmd2,shell=True,stdin=self.p1.stdout,stdout=subprocess.PIPE)
-        self.p1.wait()
         print '''
 		press q to play next songs,
 		press Ctrl+c to terminate'''
+        self.p1 = subprocess.Popen(cmd1,shell=True,stdout=subprocess.PIPE)
+        self.p2 = subprocess.Popen(cmd2,shell=True,stdin=self.p1.stdout,stdout=subprocess.PIPE)
+        self.p1.wait()
 #        os.system(cmd)
         return 0
 
@@ -45,7 +45,6 @@ class FMPI(DB):
                 one = None
             if one is not None:
                 print '>>>>%s'%one[1]
-                DB.updateone(self,one[0])
                 if one[1].startswith('http://'): #直接播放url对应的音乐
                     if one[1].endswith('mp3'):
                         self.play(one[1])
@@ -54,6 +53,7 @@ class FMPI(DB):
                 else:
                     url = getlink(one[1].encode('utf-8'))
                     self.play(url,config.freq,config.rate)
+                DB.updateone(self,one[0])
             else:
                 rand_music = self.get_random_music()
                 DB.put(self,rand_music)
