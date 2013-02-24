@@ -62,6 +62,7 @@ class INDEX(DB,FMPI):
                 web.seeother('/')
             else:
                 return ret
+        return self.index()
 
 if __name__=='__main__':
     db = DB()

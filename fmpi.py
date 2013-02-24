@@ -10,8 +10,6 @@ from get_sogou_mp3 import getlink
 
 class FMPI(DB):
     '''从播放队列获取歌曲并播放'''
-    p1 = None
-    p2 = None
     def play(self,name_or_url,freq=97.5,rate=44100):
         '''调用外部播放命令'''
 #        cmd = "mpg123 -m -C -q -s %s | sudo pifm - %s %s"%(name_or_url,freq,rate)
