@@ -53,7 +53,7 @@ class INDEX(DB,FMPI):
         input = web.input()
         if input.has_key('c'):
             key = input['c']
-            FMPI.control(self,key)
+#            FMPI.control(self,key)
             web.seeother('/')
         if input.has_key('m'):
             music_name = input['m']

@@ -18,10 +18,14 @@ class FMPI(DB):
         self.p1 = subprocess.Popen(cmd1,shell=True,stdout=subprocess.PIPE)
         self.p2 = subprocess.Popen(cmd2,shell=True,stdin=self.p1.stdout,stdout=subprocess.PIPE)
         self.p1.wait()
+        print '''
+		press q to play next songs,
+		press Ctrl+c to terminate'''
 #        os.system(cmd)
         return 0
 
     def control(self,key):
+        '''has problem'''
         out,err = self.p1.communicate(key)
         return out
 
@@ -40,11 +44,17 @@ class FMPI(DB):
             except:
                 one = None
             if one is not None:
-                url = getlink(one[1].encode('utf-8'))
-                self.play(url,config.freq,config.rate)
+                print '>>>>%s'%one[1]
                 DB.updateone(self,one[0])
+                if one[1].startswith('http://'): #直接播放url对应的音乐
+                    if one[1].endswith('mp3'):
+                        self.play(one[1])
+                    else:
+                        continue
+                else:
+                    url = getlink(one[1].encode('utf-8'))
+                    self.play(url,config.freq,config.rate)
             else:
                 rand_music = self.get_random_music()
                 DB.put(self,rand_music)
             time.sleep(1)#降低CPU占用率
-
