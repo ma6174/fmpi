@@ -12,6 +12,3 @@ wget https://github.com/ma6174/fmpi/archive/master.zip
 unzip master.zip
 cd fmpi-master
 sudo cp pifm /usr/bin/
-sudo ifconfig | grep addr
-echo "安装部署完成，请根据上面的IP在电脑浏览器上打开http://树莓派IP:8000/"
-bash start.sh
