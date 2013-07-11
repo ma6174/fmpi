@@ -37,7 +37,8 @@ class FMPI(DB):
     def print_local_ip(self):
         cmd = "hostname -I"
         logging.info("your IP is:")
-        subprocess.Popen(cmd,shell=True)
+        p = subprocess.Popen(cmd,shell=True)
+        p.wait()
         logging.info("Just open http://Your_IP:8080/ in broswer to add music")
 
     def control(self, key):
