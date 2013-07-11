@@ -17,6 +17,7 @@ class INDEX(DB,FMPI):
         html = '''<head>
         <meta charset="UTF-8">
         <link rel="shortcut icon" href="/static/favicon.ico" >
+        <meta http-equiv="refresh" content="5">
         </head>
         <html>
         <form action="/" method="GET">

@@ -21,8 +21,10 @@ class FMPI(DB):
 # %s"%(name_or_url,freq,rate)
         cmd1 = "mpg123 -m -C -q -s %s" % name_or_url
         cmd2 = "sudo pifm - %s %s" % (freq, rate)
+        self.print_local_ip()
         logging.info(
             '''press q to play next songs,\npress Ctrl+c to terminate''')
+        logging.info("")
         self.p1 = subprocess.Popen(cmd1, shell=True, stdout=subprocess.PIPE)
         self.p2 = subprocess.Popen(
             cmd2,
@@ -32,6 +34,11 @@ class FMPI(DB):
         self.p1.wait()
 #        os.system(cmd)
         return 0
+    def print_local_ip(self):
+        cmd = "hostname -I"
+        logging.info("your IP is:")
+        subprocess.Popen(cmd,shell=True)
+        logging.info("Just open http://Your_IP:8080/ in broswer to add music")
 
     def control(self, key):
         '''has problem'''
