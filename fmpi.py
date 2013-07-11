@@ -48,7 +48,7 @@ class FMPI(DB):
     def get_douban_music(self):
         '''获取豆瓣歌曲'''
         song = douban.getmusic()
-        return song['title']+ "\t" +song['artist']
+        return song['title']
 
     def fmpi(self):
         '''循环检测'''
