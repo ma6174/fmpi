@@ -4,25 +4,29 @@ import urllib
 import urllib2
 import re
 def getlink(music_name):
-    quote_name = urllib.quote(music_name.decode('utf-8').encode('gbk'))
-    query_url = 'http://mp3.sogou.com/music.so?query=%s&class=1&pf=&w=02009900&st=&ac=1&sourcetype=sugg&_asf=mp3.sogou.com&_ast=1361525645'%quote_name
-    data = urllib2.urlopen(query_url,timeout=10).read()
-    re_com = re.compile('onclick="window.open\(\'(.*?)\'')
-    forward_links = re_com.findall(data)
-    total = len(forward_links)
-    if total == 0:
-        return None
-    for i in range(total):
-        next_link = "http://mp3.sogou.com"+forward_links[i]
-        data2 = urllib2.urlopen(next_link,timeout=10).read()
-        re_com2 = re.compile('<div class="dl"><a href=\"(.*?)\"')
-        download_link = re_com2.findall(data2)
-        try:
-            if download_link[0][-3:] == 'mp3':
-                return download_link[0]
-        except:
-            pass
-    return None
+    #quote_name = urllib.quote(music_name.decode('utf-8').encode('gbk'))
+	quote_name = urllib.quote(music_name)
+	query_url='http://mp3.sogou.com/music.so?query=%s&class=1&pf=&w=02009900&st=&ac=1&sourcetype=sugg&_asf=mp3.sogou.com&_ast=1361525645'%quote_name
+	data = urllib2.urlopen(query_url,timeout=10).read()
+	re_com = re.compile('Õ¾µã" onclick="window.open\(\'(.*?)\'')
+	forward_links = re_com.findall(data)
+	total = len(forward_links)
+	print total
+	if total == 0:
+	    return None
+	for i in range(total):
+		next_link = "http://mp3.sogou.com"+forward_links[i]
+		#next_link = forward_links[i]
+		data2 = urllib2.urlopen(next_link,timeout=10).read()
+		re_com2 = re.compile('<div class="btn_area">*\s*<a href=\"(.*?)\"')
+		download_link = re_com2.findall(data2)
+		try:
+			if download_link[0][-3:] == 'mp3':
+	#print download_link[0]
+				return download_link[0]
+		except:
+			pass
+	return None
 
 def get_all_mp3(url):
     '''get all mp3 from a url'''
@@ -34,7 +38,7 @@ def get_all_mp3(url):
     for i in ll:
         if urllib.basejoin(url,i) not in all:
             all.append(urllib.basejoin(url,i))
-    return list(set(all)) #åˆ é™¤é‡å¤æ­Œæ›²
+    return list(set(all)) #É¾³ýÖØ¸´¸èÇú
 
 if __name__=='__main__':
-    print getlink('æ»´ç­”')
+    print getlink('¼ÅÄ¯ÏÈÉú')
